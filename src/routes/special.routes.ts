@@ -2,7 +2,7 @@ import {Router} from 'express';
 
 const router = Router();
 
-import {  signUp,getRolByToken } from "../controllers/user.controller";
+import {  signUp} from "../controllers/user.controller";
 import { authJwt } from "../middlewares";
 
 

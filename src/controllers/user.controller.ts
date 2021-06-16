@@ -46,7 +46,7 @@ export const signIn = async (req:Request,res:Response):Promise<Response> =>{
 
     const matchPassword = await comparePassword(req.body.password ,user.password)
     if(!matchPassword) return res.status(401).json({ token: null, msg:'Usuario o contraseña inválidos' })
-    const token = jwt.sign({ id: user.idUsuarios }, config.SECRET,{
+    const token = jwt.sign({ id: user.idusuarios }, config.SECRET,{
         expiresIn:28800 //8 horas
     })
     conn.end()
@@ -54,17 +54,17 @@ export const signIn = async (req:Request,res:Response):Promise<Response> =>{
     return res.json({token})
 }
 
-export const getRolByToken=async(req:Request,res:Response):Promise<Response>=>{
+export const infousuario=async(req:Request,res:Response):Promise<Response>=>{
+    const token = req.headers['x-access-token']?.toLocaleString();
+    if(!token) return res.status(403).json({ message: "sin token" })
+    const decoded:any = jwt.verify(token,config.SECRET);
+    if(!decoded) return res.status(404).json({ message:' token invalido ' })
     try {
-        const token = req.headers['x-access-token']?.toLocaleString();
-        if(!token) return res.status(403).json({ message: "sin token" })
-        const decoded:any = jwt.verify(token,config.SECRET);
-        if(!decoded) return res.status(404).json({ message:' token invalido ' })
         const conn = await connect();
-        const getRol = await conn.query('Select Roles_idRoles from usuarios where idUsuarios = ?',[decoded.id]);
+        const info = await conn.query('SELECT nombre,apellido,roles_idroles from usuarios where idusuarios = ?',[decoded.id]);
         conn.end()
-        return res.status(200).json(getRol[0]);
+        return res.status(200).json(info[0]);
     } catch (error) {
-        return res.status(200).json({ msg: "mensaje"})
+        return res.status(400).json({ msg: error})
     }
 }

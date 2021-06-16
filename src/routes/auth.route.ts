@@ -3,8 +3,9 @@ import {Router} from 'express';
 
 const router = Router();
 
-import { signIn } from "../controllers/user.controller";
+import { infousuario, signIn } from "../controllers/user.controller";
 
 router.post('/signin',signIn);
+router.get('/infousuario',infousuario)
 
 export default router;
