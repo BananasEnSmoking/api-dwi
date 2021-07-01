@@ -14,20 +14,22 @@ const comparePassword = async (password:any,recivedPassword:any)=>{
 }
 
 export const signUp = async (req:Request,res:Response):Promise<Response> =>{
-    if(!req.body.usuario || !req.body.password){
+    console.log(req.body)
+    if(!req.body.username || !req.body.password){
         return res.status(400).json({ msg: 'Envia toda la información' })
     }
     const conn = await connect()
-    const usuarioT = req.body.usuario;
+    const usuarioT = req.body.username;
     const us:any = await conn.query('select * from usuarios where usuario = ?',[usuarioT])
     if(us[0].length > 0){ return res.status(400).json('El usuario ya existe') }
     const user = us[0][0];
     const passEncrypt = await encryptPassword(req.body.password);
     const reqUser = req.body;
+    console.log(reqUser)
     reqUser.password = passEncrypt;
-    const insertUser =  await conn.query('INSERT INTO dwi_api.usuarios (idusuarios,usuario,password,nombre,apellido,roles_idroles)VALUES(default,?,?,?,?,?)',[reqUser.usuario,reqUser.password,reqUser.nombre,reqUser.apellido,reqUser.roles_idroles])
+    const insertUser =  await conn.query('INSERT INTO dwi_api.usuarios (idusuarios,usuario,password,nombre,apellido,roles_idroles)VALUES(default,?,?,?,?,?)',[reqUser.username,passEncrypt,reqUser.name,reqUser.lastname,reqUser.rol])
     conn.end()
-    return res.send(insertUser)
+    return res.json({msg:'success'})
 }
 
 
