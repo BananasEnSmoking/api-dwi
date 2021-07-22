@@ -14,7 +14,6 @@ const comparePassword = async (password:any,recivedPassword:any)=>{
 }
 
 export const signUp = async (req:Request,res:Response):Promise<Response> =>{
-    console.log(req.body)
     if(!req.body.username || !req.body.password){
         return res.status(400).json({ msg: 'Envia toda la información' })
     }
@@ -63,7 +62,7 @@ export const infousuario=async(req:Request,res:Response):Promise<Response>=>{
     if(!decoded) return res.status(404).json({ message:' token invalido ' })
     try {
         const conn = await connect();
-        const info = await conn.query('SELECT nombre,apellido,roles_idroles from usuarios where idusuarios = ?',[decoded.id]);
+        const info = await conn.query('SELECT nombre,apellido,roles_idroles,rol.rol from usuarios inner join roles as rol on rol.idroles = usuarios.roles_idroles where idusuarios = ?',[decoded.id]);
         conn.end()
         return res.status(200).json(info[0]);
     } catch (error) {

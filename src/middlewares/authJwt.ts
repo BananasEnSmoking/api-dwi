@@ -27,8 +27,22 @@ next()
 }
 
 
-export const isUsuario = async (req:Request,res:Response,next:NextFunction)=>{
-    if(Rol < 1) return res.status(404).json({ message:'rol invalido' })
+export const admin = async (req:Request,res:Response,next:NextFunction)=>{
+    if(Rol != 1) return res.status(404).json({ message:'rol invalido' })
+    else{
+        next()
+    }
+}
+
+export const purchaser = async (req:Request,res:Response,next:NextFunction)=>{
+    if(Rol != 2) return res.status(404).json({ message:'rol invalido' })
+    else{
+        next()
+    }
+}
+
+export const seller = async (req:Request,res:Response,next:NextFunction)=>{
+    if(Rol != 3) return res.status(404).json({ message:'rol invalido' })
     else{
         next()
     }
