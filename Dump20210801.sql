@@ -53,12 +53,12 @@ CREATE TABLE `products` (
   `idproducts` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `idSeller` int NOT NULL,
-  `img` varchar(45) DEFAULT NULL,
+  `img` varchar(500) DEFAULT NULL,
   `price` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`idproducts`),
   KEY `fk_products_usuarios1_idx` (`idSeller`),
   CONSTRAINT `fk_products_usuarios1` FOREIGN KEY (`idSeller`) REFERENCES `usuarios` (`idusuarios`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Playera Roja',1,'playeraroja',199.99),(2,'Playera gris',1,'playeragris',123.45);
+INSERT INTO `products` VALUES (11,'Playera rosa',10,'https://res.cloudinary.com/dwzggunyf/image/upload/v1627434498/dwi/udcekxohw9kkukux1a1i.png',199.50);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,7 +116,7 @@ CREATE TABLE `rating` (
   KEY `fk_rating_products1_idx` (`products_idproducts`),
   CONSTRAINT `fk_rating_products1` FOREIGN KEY (`products_idproducts`) REFERENCES `products` (`idproducts`),
   CONSTRAINT `fk_rating_usuarios1` FOREIGN KEY (`usuarios_idusuarios`) REFERENCES `usuarios` (`idusuarios`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +125,7 @@ CREATE TABLE `rating` (
 
 LOCK TABLES `rating` WRITE;
 /*!40000 ALTER TABLE `rating` DISABLE KEYS */;
-INSERT INTO `rating` VALUES (1,2,1,4.0),(2,1,1,2.0),(3,2,2,4.0),(4,1,2,4.0);
+INSERT INTO `rating` VALUES (10,10,11,2.0);
 /*!40000 ALTER TABLE `rating` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,7 +170,7 @@ CREATE TABLE `usuarios` (
   PRIMARY KEY (`idusuarios`),
   KEY `fk_usuarios_roles_idx` (`roles_idroles`),
   CONSTRAINT `fk_usuarios_roles` FOREIGN KEY (`roles_idroles`) REFERENCES `roles` (`idroles`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,7 +179,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'david.gonzalez','$2a$10$Xt.YoGIrsakklNdARTorR.PMN6VGyhdSLGBAFiKMkRrRgOXE/wbGm','David Alejandro','González González',3),(2,'jona.duron','$2a$10$8Grq3TwYPz8e.iuMz8/LruajbVX/eH/688nlgNeCQCiVUEQ3MOZly','Jonathan Alberto','Durito',2);
+INSERT INTO `usuarios` VALUES (10,'david.gonzalez','$2a$10$TQuV6Ebu29Xkv3hko8WBM.GhcWS5Pz3R9CinZo0B3.H2fNd2JrmD6','David Alejandro','Gonzalez Gonzalez',2);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -200,4 +200,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-22  1:35:13
+-- Dump completed on 2021-08-01 23:49:08
