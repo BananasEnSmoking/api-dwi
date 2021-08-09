@@ -25,11 +25,14 @@ DROP TABLE IF EXISTS `car`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `car` (
-  `idcar` int NOT NULL AUTO_INCREMENT,
-  `idusuarios` int NOT NULL,
-  PRIMARY KEY (`idcar`),
-  KEY `fk_car_usuarios1_idx` (`idusuarios`),
-  CONSTRAINT `fk_car_usuarios1` FOREIGN KEY (`idusuarios`) REFERENCES `usuarios` (`idusuarios`)
+  `usuarios_idusuarios` int NOT NULL,
+  `products_idproducts` int NOT NULL,
+  `cantidad` int NOT NULL,
+  PRIMARY KEY (`usuarios_idusuarios`,`products_idproducts`),
+  KEY `fk_usuarios_has_products_products1_idx` (`products_idproducts`),
+  KEY `fk_usuarios_has_products_usuarios1_idx` (`usuarios_idusuarios`),
+  CONSTRAINT `fk_usuarios_has_products_products1` FOREIGN KEY (`products_idproducts`) REFERENCES `products` (`idproducts`),
+  CONSTRAINT `fk_usuarios_has_products_usuarios1` FOREIGN KEY (`usuarios_idusuarios`) REFERENCES `usuarios` (`idusuarios`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -39,7 +42,32 @@ CREATE TABLE `car` (
 
 LOCK TABLES `car` WRITE;
 /*!40000 ALTER TABLE `car` DISABLE KEYS */;
+INSERT INTO `car` VALUES (1,14,7),(1,15,4);
 /*!40000 ALTER TABLE `car` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `category`
+--
+
+DROP TABLE IF EXISTS `category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `category` (
+  `idcategory` int NOT NULL AUTO_INCREMENT,
+  `category` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idcategory`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `category`
+--
+
+LOCK TABLES `category` WRITE;
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES (1,'Jeans'),(2,'Shirts');
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -55,10 +83,14 @@ CREATE TABLE `products` (
   `idSeller` int NOT NULL,
   `img` varchar(500) DEFAULT NULL,
   `price` decimal(10,2) DEFAULT NULL,
+  `category_idcategory` int NOT NULL,
+  `longDescription` longtext NOT NULL,
   PRIMARY KEY (`idproducts`),
   KEY `fk_products_usuarios1_idx` (`idSeller`),
+  KEY `fk_products_category1_idx` (`category_idcategory`),
+  CONSTRAINT `fk_products_category1` FOREIGN KEY (`category_idcategory`) REFERENCES `category` (`idcategory`),
   CONSTRAINT `fk_products_usuarios1` FOREIGN KEY (`idSeller`) REFERENCES `usuarios` (`idusuarios`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,36 +99,8 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (11,'Playera rosa',10,'https://res.cloudinary.com/dwzggunyf/image/upload/v1627434498/dwi/udcekxohw9kkukux1a1i.png',199.50);
+INSERT INTO `products` VALUES (14,'Blue Jeans',1,'https://res.cloudinary.com/dwzggunyf/image/upload/v1628454234/dwi/unyige3mc66lo6evb21e.jpg',325.36,1,'afssdfadsf dsf dsf asd'),(15,'Playera Rosa',1,'https://res.cloudinary.com/dwzggunyf/image/upload/v1628465977/dwi/w0s6lz3tifwbfndopxmf.png',200.36,2,'Es una linda playera rosa sakjnsdak dskjfndaskjf ldksj fkljdsnafkjdsf aadskjf nkljdsanflkjs dfkjnasdkfndsjfnkasdfjkdsa flkjadsnfkjnsadfkjnasdfknasd ksdajfnksadjnfksdajnfskda kjndsf');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `products_has_car`
---
-
-DROP TABLE IF EXISTS `products_has_car`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `products_has_car` (
-  `products_idproducts` int NOT NULL,
-  `car_idcar` int NOT NULL,
-  `cantidad` int DEFAULT NULL,
-  PRIMARY KEY (`products_idproducts`,`car_idcar`),
-  KEY `fk_products_has_car_car1_idx` (`car_idcar`),
-  KEY `fk_products_has_car_products1_idx` (`products_idproducts`),
-  CONSTRAINT `fk_products_has_car_car1` FOREIGN KEY (`car_idcar`) REFERENCES `car` (`idcar`),
-  CONSTRAINT `fk_products_has_car_products1` FOREIGN KEY (`products_idproducts`) REFERENCES `products` (`idproducts`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `products_has_car`
---
-
-LOCK TABLES `products_has_car` WRITE;
-/*!40000 ALTER TABLE `products_has_car` DISABLE KEYS */;
-/*!40000 ALTER TABLE `products_has_car` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -116,7 +120,7 @@ CREATE TABLE `rating` (
   KEY `fk_rating_products1_idx` (`products_idproducts`),
   CONSTRAINT `fk_rating_products1` FOREIGN KEY (`products_idproducts`) REFERENCES `products` (`idproducts`),
   CONSTRAINT `fk_rating_usuarios1` FOREIGN KEY (`usuarios_idusuarios`) REFERENCES `usuarios` (`idusuarios`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +129,7 @@ CREATE TABLE `rating` (
 
 LOCK TABLES `rating` WRITE;
 /*!40000 ALTER TABLE `rating` DISABLE KEYS */;
-INSERT INTO `rating` VALUES (10,10,11,2.0);
+INSERT INTO `rating` VALUES (13,1,14,2.0),(14,1,15,2.0);
 /*!40000 ALTER TABLE `rating` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,7 +174,7 @@ CREATE TABLE `usuarios` (
   PRIMARY KEY (`idusuarios`),
   KEY `fk_usuarios_roles_idx` (`roles_idroles`),
   CONSTRAINT `fk_usuarios_roles` FOREIGN KEY (`roles_idroles`) REFERENCES `roles` (`idroles`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,7 +183,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (10,'david.gonzalez','$2a$10$TQuV6Ebu29Xkv3hko8WBM.GhcWS5Pz3R9CinZo0B3.H2fNd2JrmD6','David Alejandro','Gonzalez Gonzalez',2);
+INSERT INTO `usuarios` VALUES (1,'david','$2a$10$yHl2nwchVMQwmycskYwDOecUeTUcmaNp4tG89I1PzkxACc4alglGa','David','Alejandro',3);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -200,4 +204,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-01 23:49:08
+-- Dump completed on 2021-08-09  0:08:56
