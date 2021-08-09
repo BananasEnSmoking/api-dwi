@@ -66,7 +66,6 @@ export const deleteItemCar =async(req:Request,res:Response):Promise<Response>=>{
 }
 
 //eliminar todo el carrito
-
 export const deleteAllCar =async(req:Request,res:Response):Promise<Response>=>{
     if(!req.header){
         return res.status(400).json({ msg: 'Envia toda la informacion' })
