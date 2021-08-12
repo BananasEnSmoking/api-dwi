@@ -4,7 +4,7 @@ import {Router} from 'express';
 const router = Router();
 
 import { infousuario, signIn } from "../controllers/user.controller";
-import { getOneProduct, getProducts, insertProduct } from '../controllers/products.controller';
+import { getOneProduct, getProducts, getProductsByCategory, insertProduct } from '../controllers/products.controller';
 import { getCategories } from '../controllers/category.controller';
 import { deleteAllCar, deleteItemCar, getCar, getPedidos, insertCar, insertPedido, updateCar } from '../controllers/car.controller';
 
@@ -23,6 +23,7 @@ router.post('/deleteItemCar',deleteItemCar)
 router.post('/insertPedido',insertPedido)
 router.get('/getPedidos',getPedidos)
 router.post('/updateCar',updateCar)
+router.post('/getProductsByCategory',getProductsByCategory)
 
 
 

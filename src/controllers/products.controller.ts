@@ -6,10 +6,20 @@ import { connect } from "../database";
 
 
 export const getProducts = async (req:Request,res:Response):Promise<Response> =>{
+  if(!req.body || !req.header){
+    return res.status(400).json({ msg: 'Envia toda la informacion' })
+  }
     const conn = await connect()
     const response =  await conn.query('Select b.rat as rating,products.name as productName,products.idproducts,products.img,products.price,users.nombre as sellerName, users.apellido as sellerLastName, category.category from products join usuarios as users on users.idusuarios = products.idSeller inner join ( select products_idproducts,round(sum(valueRating)/count(*),1) as rat from rating group by products_idproducts) as b on b.products_idproducts = products.idproducts inner join category on products.category_idcategory = category.idcategory')
     conn.end()
     return res.json({msg:'success',products:response[0]})
+}
+
+export const getProductsByCategory = async (req:Request,res:Response):Promise<Response> =>{
+  const conn = await connect()
+  const response =  await conn.query('Select b.rat as rating,products.name as productName,products.idproducts,products.img,products.price,users.nombre as sellerName, users.apellido as sellerLastName, category.category from products join usuarios as users on users.idusuarios = products.idSeller inner join ( select products_idproducts,round(sum(valueRating)/count(*),1) as rat from rating group by products_idproducts) as b on b.products_idproducts = products.idproducts inner join category on products.category_idcategory = category.idcategory where category = ?',[req.body.idcategory])
+  conn.end()
+  return res.json({msg:'success',products:response[0]})
 }
 
 export const getOneProduct = async (req:Request,res:Response):Promise<Response> =>{
