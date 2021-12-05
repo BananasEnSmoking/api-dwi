@@ -1,5 +1,5 @@
-CREATE DATABASE  IF NOT EXISTS `dwi_api` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `dwi_api`;
+CREATE DATABASE  IF NOT EXISTS `bhgvxlerhtaw5lx1ohij` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `bhgvxlerhtaw5lx1ohij`;
 -- MySQL dump 10.13  Distrib 8.0.25, for Win64 (x86_64)
 --
 -- Host: localhost    Database: dwi_api

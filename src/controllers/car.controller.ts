@@ -137,7 +137,7 @@ export const getCar =async(req:Request,res:Response):Promise<Response>=>{
     
         if(!decoded) return res.status(404).json({ message:' token invalido ' })
         conn = await pool.getConnection();
-        const result = await conn.query('SELECT * FROM dwi_api.car inner join products on products.idproducts = products_idproducts where usuarios_idusuarios = ?;',[decoded.id]);
+        const result = await conn.query('SELECT * FROM car inner join products on products.idproducts = products_idproducts where usuarios_idusuarios = ?;',[decoded.id]);
         await conn.commit();
         return res.status(200).json({msg:'success',car:result[0]})
     

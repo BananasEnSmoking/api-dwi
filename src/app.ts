@@ -18,7 +18,7 @@ app.use(cors());
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 
-//routes
+//routes 
 app.get('/',(req, res)=> {
     res.send(`the api is at http:localhost:${app.get('port')}`);
 });

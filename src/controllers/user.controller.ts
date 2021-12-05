@@ -26,7 +26,7 @@ export const signUp = async (req:Request,res:Response):Promise<Response> =>{
     const reqUser = req.body;
     console.log(reqUser)
     reqUser.password = passEncrypt;
-    const insertUser =  await conn.query('INSERT INTO dwi_api.usuarios (idusuarios,usuario,password,nombre,apellido,roles_idroles)VALUES(default,?,?,?,?,?)',[reqUser.username,passEncrypt,reqUser.name,reqUser.lastname,reqUser.rol])
+    const insertUser =  await conn.query('INSERT INTO usuarios (idusuarios,usuario,password,nombre,apellido,roles_idroles)VALUES(default,?,?,?,?,?)',[reqUser.username,passEncrypt,reqUser.name,reqUser.lastname,reqUser.rol])
     conn.end()
     return res.json({msg:'success'})
 }
